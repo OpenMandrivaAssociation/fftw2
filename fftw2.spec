@@ -22,6 +22,7 @@ BuildRequires:	gcc-g77
 BuildRequires:	gcc-gfortran
 %endif
 BuildRequires:	automake1.7
+BuildRequires:	libtool
 
 %description
 FFTW is a collection of fast C routines for computing the Discrete Fourier
@@ -98,9 +99,7 @@ cd double
 %make
 
 cd ../single
-aclocal-1.7
-automake-1.7
-autoconf
+libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
 %ifarch %{ix86}
     %configure2_5x --enable-shared --enable-threads --infodir=$RPM_BUILD_ROOT%{_infodir} --enable-i386-hacks --enable-float --enable-type-prefix 
 %else
