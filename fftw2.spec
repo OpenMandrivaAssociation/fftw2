@@ -1,6 +1,6 @@
 %define	oname	fftw
 %define version	2.1.5
-%define	rel	9
+%define	rel	10
 %define release	%mkrel %{rel}
 
 %define major	2
@@ -35,8 +35,6 @@ an "s" prefix.)
 %package -n	%{libname}
 Summary:	Fast fourier transform library
 Group:		Development/C
-Provides:	libfftw fftw
-Obsoletes:	libfftw, fftw
 
 %description -n	%{libname}
 FFTW is a collection of fast C routines for computing the Discrete Fourier
@@ -50,10 +48,7 @@ an "s" prefix.)
 Summary:	Headers, libraries, & docs for FFTW fast fourier transform library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Provides:	libfftw-devel = %{version}-%{release}
-Provides:	fftw-devel = %{version}-%{release}
 Provides:	fftw2-devel = %{version}-%{release}
-Obsoletes:	libfftw-devel fftw-devel
 
 %description -n %{libname}-devel
 This package contains the additional header files, documentation, and
