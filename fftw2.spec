@@ -1,10 +1,11 @@
 %define	oname	fftw
 %define version	2.1.5
-%define	rel	10
+%define	rel	11
 %define release	%mkrel %{rel}
 
 %define major	2
 %define libname %mklibname %{oname} %{major}
+%define develname %mklibname %{oname} -d
 
 Name:		fftw2
 Summary:	Fast fourier transform library
@@ -14,7 +15,7 @@ License:	GPL
 Group:		Development/C
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:	%{oname}-%{version}.tar.bz2
-Patch0:		%{oname}-2.1.3-pentium.patch.bz2
+Patch0:		%{oname}-2.1.3-pentium.patch
 URL:		http://www.fftw.org/
 %if %mdkversion <= 1020
 BuildRequires:	gcc-g77
@@ -44,13 +45,14 @@ This RPM package includes both the double- and single-precision FFTW
 uniprocessor and threads libraries.  (The single-precision files have
 an "s" prefix.)
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary:	Headers, libraries, & docs for FFTW fast fourier transform library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 Provides:	fftw2-devel = %{version}-%{release}
+Obsoletes:	%{mklibname %{oname} 2 -d}
 
-%description -n %{libname}-devel
+%description -n %{develname}
 This package contains the additional header files, documentation, and
 libraries you need to develop programs using the FFTW fast fourier
 transform library.
@@ -135,13 +137,13 @@ rm -rf $RPM_BUILD_ROOT
 # (make sure /sbin is in the $PATH)
 PATH="/sbin:$PATH" ldconfig
 
-%post -n %{libname}-devel
+%post -n %{develname}
 %__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
-                -s Libraries %{_infodir}/fftw.info.bz2 %{_infodir}/dir
+                -s Libraries %{_infodir}/fftw.info.* %{_infodir}/dir
 
-%preun -n %{libname}-devel
+%preun -n %{develname}
 %__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
-                -s Libraries %{_infodir}/fftw.info.bz2 %{_infodir}/dir --remove
+                -s Libraries %{_infodir}/fftw.info.* %{_infodir}/dir --remove
 
 %postun -n %{libname}
 # after uninstall, run ldconfig to remove the libs from the linker database
@@ -152,7 +154,7 @@ PATH="/sbin:$PATH" ldconfig
 %doc html FAQ doc/*ps doc/*fig doc/*tex* AUTHORS ChangeLog NEWS README* TODO
 %{_libdir}/lib*fftw*.so.2*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr (-,root,root)
 %{_includedir}/*fftw*.h
 %doc %{_infodir}/*
