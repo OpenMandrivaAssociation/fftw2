@@ -1,11 +1,11 @@
 %define	oname	fftw
 %define version	2.1.5
-%define	rel	11
+%define rel	12
 %define release	%mkrel %{rel}
 
 %define major	2
 %define libname %mklibname %{oname} %{major}
-%define develname %mklibname %{oname} -d
+%define develname %mklibname %{oname} -d %major
 
 Name:		fftw2
 Summary:	Fast fourier transform library
@@ -50,7 +50,6 @@ Summary:	Headers, libraries, & docs for FFTW fast fourier transform library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 Provides:	fftw2-devel = %{version}-%{release}
-Obsoletes:	%{mklibname %{oname} 2 -d}
 
 %description -n %{develname}
 This package contains the additional header files, documentation, and
