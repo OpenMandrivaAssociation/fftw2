@@ -13,7 +13,6 @@ Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		Development/C
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:	%{oname}-%{version}.tar.bz2
 Patch0:		%{oname}-2.1.3-pentium.patch
 URL:		http://www.fftw.org/
