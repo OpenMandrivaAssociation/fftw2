@@ -1,22 +1,19 @@
 %define	oname	fftw
-%define version	2.1.5
-%define rel	12
-%define release	%mkrel %{rel}
 
-%define major	2
+%define major 2
 %define libname %mklibname %{oname} %{major}
 %define develname %mklibname %{oname} -d %major
 
-Name:		fftw2
 Summary:	Fast fourier transform library
-Version:	%{version}
-Release:	%{release}
+Name:		fftw2
+Version:	2.1.5
+Release:	%mkrel 13
 License:	GPL
 Group:		Development/C
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+URL:		http://www.fftw.org/
 Source0:	%{oname}-%{version}.tar.bz2
 Patch0:		%{oname}-2.1.3-pentium.patch
-URL:		http://www.fftw.org/
+Patch1:		fftw-linkage_fix.diff
 %if %mdkversion <= 1020
 BuildRequires:	gcc-g77
 %else
@@ -24,14 +21,14 @@ BuildRequires:	gcc-gfortran
 %endif
 BuildRequires:	automake1.7
 BuildRequires:	libtool
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 FFTW is a collection of fast C routines for computing the Discrete Fourier
-Transform in one or more dimensions.  It includes complex, real, and
-parallel transforms, and can handle arbitrary array sizes efficiently.
-This RPM package includes both the double- and single-precision FFTW
-uniprocessor and threads libraries.  (The single-precision files have
-an "s" prefix.)
+Transform in one or more dimensions.  It includes complex, real, and parallel
+transforms, and can handle arbitrary array sizes efficiently. This RPM package
+includes both the double- and single-precision FFTW uniprocessor and threads
+libraries.  (The single-precision files have an "s" prefix.)
 
 %package -n	%{libname}
 Summary:	Fast fourier transform library
@@ -39,11 +36,10 @@ Group:		Development/C
 
 %description -n	%{libname}
 FFTW is a collection of fast C routines for computing the Discrete Fourier
-Transform in one or more dimensions.  It includes complex, real, and
-parallel transforms, and can handle arbitrary array sizes efficiently.
-This RPM package includes both the double- and single-precision FFTW
-uniprocessor and threads libraries.  (The single-precision files have
-an "s" prefix.)
+Transform in one or more dimensions.  It includes complex, real, and parallel
+transforms, and can handle arbitrary array sizes efficiently. This RPM package
+includes both the double- and single-precision FFTW uniprocessor and threads
+libraries.  (The single-precision files have an "s" prefix.)
 
 %package -n	%{develname}
 Summary:	Headers, libraries, & docs for FFTW fast fourier transform library
@@ -52,9 +48,8 @@ Requires:	%{libname} = %{version}-%{release}
 Provides:	fftw2-devel = %{version}-%{release}
 
 %description -n %{develname}
-This package contains the additional header files, documentation, and
-libraries you need to develop programs using the FFTW fast fourier
-transform library.
+This package contains the additional header files, documentation, andlibraries
+you need to develop programs using the FFTW fast fourier transform library.
 
 %prep
 # We will be compiling two copies of FFTW, one for double precision and
@@ -72,7 +67,9 @@ cd double
 %patch0 -p1
 cd ..
 # Last, make a copy of this directory in "single":
-cp -r double single
+cp -rp double single
+
+%patch1 -p1
 
 %build
 
@@ -87,26 +84,47 @@ cp -r double single
 #      prefix.
 
 cd double
+libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
 %ifarch %{ix86}
-    %configure2_5x --enable-shared --enable-threads --infodir=$RPM_BUILD_ROOT%{_infodir} --enable-i386-hacks
+%configure2_5x \
+    --enable-shared \
+    --enable-threads \
+    --infodir=%{buildroot}%{_infodir} \
+    --enable-i386-hacks
 %else
-    %configure2_5x --enable-shared --enable-threads --infodir=$RPM_BUILD_ROOT%{_infodir}
+%configure2_5x \
+    --enable-shared \
+    --enable-threads \
+    --infodir=%{buildroot}%{_infodir}
 %endif
 %make
 
 cd ../single
 libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
 %ifarch %{ix86}
-    %configure2_5x --enable-shared --enable-threads --infodir=$RPM_BUILD_ROOT%{_infodir} --enable-i386-hacks --enable-float --enable-type-prefix 
+%configure2_5x \
+    --enable-shared \
+    --enable-threads \
+    --infodir=%{buildroot}%{_infodir} \
+    --enable-i386-hacks \
+    --enable-float \
+    --enable-type-prefix 
 %else
-    %configure2_5x --enable-shared --enable-threads --infodir=$RPM_BUILD_ROOT%{_infodir} --enable-float --enable-type-prefix
+%configure2_5x \
+    --enable-shared \
+    --enable-threads \
+    --infodir=%{buildroot}%{_infodir} \
+    --enable-float \
+    --enable-type-prefix
 %endif
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
+
 cd double
 %makeinstall
+
 cd ../single
 %makeinstall
 
@@ -128,13 +146,13 @@ cp -a FAQ/* ../FAQ
 # do the same to the other %doc files
 cp AUTHORS ChangeLog NEWS README* TODO ..
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+%if %mdkversion < 200900
+%post -n %{libname} -p /sbin/ldconfig
+%endif
 
-%post -n %{libname}
-# run ldconfig to update the runtime linker database with the new libraries
-# (make sure /sbin is in the $PATH)
-PATH="/sbin:$PATH" ldconfig
+%if %mdkversion < 200900
+%postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %post -n %{develname}
 %__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
@@ -144,14 +162,13 @@ PATH="/sbin:$PATH" ldconfig
 %__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
                 -s Libraries %{_infodir}/fftw.info.* %{_infodir}/dir --remove
 
-%postun -n %{libname}
-# after uninstall, run ldconfig to remove the libs from the linker database
-PATH="/sbin:$PATH" ldconfig
+%clean
+rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr (-,root,root)
 %doc html FAQ doc/*ps doc/*fig doc/*tex* AUTHORS ChangeLog NEWS README* TODO
-%{_libdir}/lib*fftw*.so.2*
+%{_libdir}/lib*fftw*.so.%{major}*
 
 %files -n %{develname}
 %defattr (-,root,root)
