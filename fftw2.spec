@@ -7,8 +7,8 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	%mkrel 13
-License:	GPL
+Release:	%mkrel 14
+License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
 Source0:	%{oname}-%{version}.tar.bz2
