@@ -7,7 +7,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	%mkrel 14
+Release:	%mkrel 15
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
@@ -19,7 +19,7 @@ BuildRequires:	gcc-g77
 %else
 BuildRequires:	gcc-gfortran
 %endif
-BuildRequires:	automake1.7
+BuildRequires:	automake
 BuildRequires:	libtool
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -84,7 +84,7 @@ cp -rp double single
 #      prefix.
 
 cd double
-libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
+libtoolize --copy --force; aclocal; automake; autoconf
 %ifarch %{ix86}
 %configure2_5x \
     --enable-shared \
@@ -100,7 +100,7 @@ libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
 %make
 
 cd ../single
-libtoolize --copy --force; aclocal-1.7; automake-1.7; autoconf
+libtoolize --copy --force; aclocal; automake; autoconf
 %ifarch %{ix86}
 %configure2_5x \
     --enable-shared \
