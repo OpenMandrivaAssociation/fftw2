@@ -146,13 +146,7 @@ cp -a FAQ/* ../FAQ
 # do the same to the other %doc files
 cp AUTHORS ChangeLog NEWS README* TODO ..
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
+rm -f %buildroot%_libdir/*.la
 
 %post -n %{develname}
 %__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
