@@ -175,5 +175,4 @@ rm -rf %{buildroot}
 %{_includedir}/*fftw*.h
 %doc %{_infodir}/*
 %{_libdir}/lib*fftw*.a
-%{_libdir}/lib*fftw*.la
 %{_libdir}/lib*fftw*.so
