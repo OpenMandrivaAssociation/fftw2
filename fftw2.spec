@@ -2,26 +2,21 @@
 
 %define major 2
 %define libname %mklibname %{oname} %{major}
-%define develname %mklibname %{oname} -d %major
+%define develname %mklibname %{oname} -d %{major}
 
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	%mkrel 16
+Release:	16
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
 Source0:	%{oname}-%{version}.tar.bz2
 Patch0:		%{oname}-2.1.3-pentium.patch
 Patch1:		fftw-linkage_fix.diff
-%if %mdkversion <= 1020
-BuildRequires:	gcc-g77
-%else
 BuildRequires:	gcc-gfortran
-%endif
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 FFTW is a collection of fast C routines for computing the Discrete Fourier
@@ -59,9 +54,9 @@ you need to develop programs using the FFTW fast fourier transform library.
 # Unpack the tar archive, first (-c) creating a fftw-%{version}
 # directory and then unpacking in there.
 
-%setup -q -c -n %oname-%version
+%setup -q -c -n %{oname}-%{version}
 # Now, rename the unpacked FFTW directory to "double":
-mv %oname-%version double
+mv %{oname}-%{version} double
 # Apply patch to enable pentium optimizations
 cd double
 %patch0 -p1
@@ -72,7 +67,6 @@ cp -rp double single
 %patch1 -p1
 
 %build
-
 # Configure and build the double and single precision versions.
 # Notes:
 #  (1) We install into ${RPM_BUILD_ROOT}, which is set either
@@ -85,48 +79,34 @@ cp -rp double single
 
 cd double
 libtoolize --copy --force; aclocal; automake; autoconf
+%configure2_5x \
+    --disable-static \
+    --enable-shared \
+    --enable-threads \
 %ifarch %{ix86}
-%configure2_5x \
-    --enable-shared \
-    --enable-threads \
-    --infodir=%{buildroot}%{_infodir} \
     --enable-i386-hacks
-%else
-%configure2_5x \
-    --enable-shared \
-    --enable-threads \
-    --infodir=%{buildroot}%{_infodir}
 %endif
 %make
 
 cd ../single
 libtoolize --copy --force; aclocal; automake; autoconf
+%configure2_5x \
+    --disable-static \
+    --enable-shared \
+    --enable-threads \
 %ifarch %{ix86}
-%configure2_5x \
-    --enable-shared \
-    --enable-threads \
-    --infodir=%{buildroot}%{_infodir} \
     --enable-i386-hacks \
-    --enable-float \
-    --enable-type-prefix 
-%else
-%configure2_5x \
-    --enable-shared \
-    --enable-threads \
-    --infodir=%{buildroot}%{_infodir} \
+%endif
     --enable-float \
     --enable-type-prefix
-%endif
 %make
 
 %install
-rm -rf %{buildroot}
-
 cd double
-%makeinstall
+%makeinstall_std
 
 cd ../single
-%makeinstall
+%makeinstall_std
 
 # copy doc files where RPM will find them
 # put the HTML stuff in a sperate dir, so it appears nicely in the docdir
@@ -146,27 +126,12 @@ cp -a FAQ/* ../FAQ
 # do the same to the other %doc files
 cp AUTHORS ChangeLog NEWS README* TODO ..
 
-rm -f %buildroot%_libdir/*.la
-
-%post -n %{develname}
-%__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
-                -s Libraries %{_infodir}/fftw.info.* %{_infodir}/dir
-
-%preun -n %{develname}
-%__install_info -e '* FFTW: (fftw).                     Fast Fourier Transform library.'\
-                -s Libraries %{_infodir}/fftw.info.* %{_infodir}/dir --remove
-
-%clean
-rm -rf %{buildroot}
-
 %files -n %{libname}
-%defattr (-,root,root)
 %doc html FAQ doc/*ps doc/*fig doc/*tex* AUTHORS ChangeLog NEWS README* TODO
 %{_libdir}/lib*fftw*.so.%{major}*
 
 %files -n %{develname}
-%defattr (-,root,root)
 %{_includedir}/*fftw*.h
-%doc %{_infodir}/*
-%{_libdir}/lib*fftw*.a
 %{_libdir}/lib*fftw*.so
+%{_infodir}/*
+
