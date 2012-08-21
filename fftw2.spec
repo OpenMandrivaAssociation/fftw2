@@ -7,7 +7,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	16
+Release:	17
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
@@ -86,6 +86,7 @@ libtoolize --copy --force; aclocal; automake; autoconf
 %ifarch %{ix86}
     --enable-i386-hacks
 %endif
+
 %make
 
 cd ../single
