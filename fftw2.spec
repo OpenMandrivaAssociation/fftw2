@@ -7,7 +7,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	17
+Release:	16
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
@@ -100,6 +100,7 @@ libtoolize --copy --force; aclocal; automake; autoconf
 %endif
     --enable-float \
     --enable-type-prefix
+
 %make
 
 %install
@@ -136,3 +137,123 @@ cp AUTHORS ChangeLog NEWS README* TODO ..
 %{_libdir}/lib*fftw*.so
 %{_infodir}/*
 
+%changelog
+* Mon Jan 03 2011 Oden Eriksson <oeriksson@mandriva.com> 2.1.5-15mdv2011.0
++ Revision: 627774
+- don't force the usage of automake1.7
+
+* Wed Aug 05 2009 Götz Waschk <waschk@mandriva.org> 2.1.5-14mdv2011.0
++ Revision: 409959
+- update license
+
+* Mon Aug 04 2008 Oden Eriksson <oeriksson@mandriva.com> 2.1.5-13mdv2009.0
++ Revision: 262954
+- fix linkage (P1)
+
+* Fri Dec 21 2007 Olivier Blin <oblin@mandriva.com> 2.1.5-12mdv2008.1
++ Revision: 136415
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Fri Aug 31 2007 Götz Waschk <waschk@mandriva.org> 2.1.5-12mdv2008.0
++ Revision: 77011
+- revert previous devel name change
+
+* Fri Aug 31 2007 Oden Eriksson <oeriksson@mandriva.com> 2.1.5-11mdv2008.0
++ Revision: 76951
+- new devel naming
+- fix info-install
+- bunzip the patch
+
+* Thu Aug 30 2007 Götz Waschk <waschk@mandriva.org> 2.1.5-10mdv2008.0
++ Revision: 76343
+- clean obsoletes and provides
+
+* Tue Jul 24 2007 Oden Eriksson <oeriksson@mandriva.com> 2.1.5-9mdv2008.0
++ Revision: 54961
+- make it build
+- Import fftw2
+
+
+
+* Thu Jul 20 2006 Götz Waschk <waschk@mandriva.org> 2.1.5-9mdk
+- Rebuild
+
+* Wed Feb 08 2006 Per Øyvind Karlsen <pkarlsen@mandriva.com> 2.1.5-8mdk
+- rebuild
+
+* Wed Jul 06 2005 Per Ãyvind Karlsen <pkarlsen@mandriva.com> 2.1.5-7mdk
+- fix so we're using g77 as compiler for older releases
+- %%mkrel
+- wipe out buildroot in %%install, not %%prep
+- cosmetics
+
+* Wed May 25 2005 Götz Waschk <waschk@mandriva.org> 2.1.5-6mdk
+- rebuild with gfortran
+
+* Sun Dec 26 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 2.1.5-5mdk
+- lib64 fix
+
+* Fri Dec  3 2004 GÃ¶tz Waschk <waschk@linux-mandrake.com> 2.1.5-4mdk
+- rebuild
+
+* Thu Nov 20 2003 GÃ¶tz Waschk <waschk@linux-mandrake.com> 2.1.5-3mdk
+- fix build and dependancies
+- fix devel provides
+- reintroduce libfftw2 for compatiblity 
+
+* Thu Jul 10 2003 GÃ¶tz Waschk <waschk@linux-mandrake.com> 2.1.5-2mdk
+- mklibname macro
+- autoconf 2.5 macro
+- quiet tar
+
+* Tue Mar 25 2003 Lenny Cartier <lenny@mandrakesoft.com> 2.1.5-1mdk
+- 2.1.5
+
+* Sat Jan 18 2003 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-11mdk
+- rebuild
+
+* Tue Sep 03 2002 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-10mdk
+- fix provides/obsoletes
+
+* Wed Aug 28 2002 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-9mdk
+- rebuild
+
+* Thu Jun 14 2001 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-8mdk
+- fixed by Mika Korhonen <mikak@ee.oulu.fi> :
+	- removed broken ld.so.conf test (/usr/lib is not listed there anyways)
+	- made install-info work with RPM macros shipping with newer Mandrakes
+	  and actually add an entry to the top dir file
+
+* Tue Jan 09 2001 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-7mdk
+- rebuild
+
+* Tue Aug 31 2000 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-6mdk
+- add installinfo
+
+* Wed Aug 30 2000 Alexander Skwar <ASkwar@DigitalProjects.com> 2.1.3-5mdk
+- Actually used macros
+- Added %%doc files
+- Shortened %%files section of the SPEC file a lot
+- Provide libfftw as eXtace requires it
+- Obsolote libfftw package
+- Optimized for Pentium builds per README.hacks
+
+* Wed Aug 30 2000 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-4mdk
+- BM
+- macros
+
+* Wed Apr 26 2000 Lenny Cartier <lenny@mandrakesoft.com> 2.1.3-3mdk
+- fix group
+- spec helper fixes
+
+* Tue Jan 25 2000 Lenny Cartier <lenny@mandrakesoft.com>
+- updated, installs in /usr instead of /usr/local by Dara Hazeghi
+  <dara@pacbell.net>
+
+* Thu Dec 16 1999 Lenny Cartier <lenny@mandrakesoft.com>
+- new in contribs
+- bz2 archive 
+- add defattr
