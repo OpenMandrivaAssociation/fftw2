@@ -14,6 +14,7 @@ URL:		http://www.fftw.org/
 Source0:	%{oname}-%{version}.tar.bz2
 Patch0:		%{oname}-2.1.3-pentium.patch
 Patch1:		fftw-linkage_fix.diff
+Patch2:		fftw-2.1.5-automake-1.13.patch
 BuildRequires:	gcc-gfortran
 BuildRequires:	automake
 BuildRequires:	libtool
@@ -65,6 +66,8 @@ cd ..
 cp -rp double single
 
 %patch1 -p1
+
+%patch2 -p1 -b .am113~
 
 %build
 # Configure and build the double and single precision versions.
