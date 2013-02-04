@@ -7,7 +7,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	16
+Release:	17
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
@@ -18,6 +18,7 @@ Patch2:		fftw-2.1.5-automake-1.13.patch
 BuildRequires:	gcc-gfortran
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	texinfo
 
 %description
 FFTW is a collection of fast C routines for computing the Discrete Fourier
