@@ -1,4 +1,4 @@
-%define	oname	fftw
+%define oname fftw
 
 %define major 2
 %define libname %mklibname %{oname} %{major}
@@ -7,7 +7,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	17
+Release:	18
 License:	GPLv2+
 Group:		Development/C
 URL:		http://www.fftw.org/
