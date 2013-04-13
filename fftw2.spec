@@ -72,6 +72,7 @@ cp -rp double single
 %patch2 -p1 -b .am113~
 
 %patch3 -p1 
+
 %build
 # Configure and build the double and single precision versions.
 # Notes:
