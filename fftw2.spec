@@ -164,6 +164,7 @@ libtoolize --copy --force; aclocal; automake; autoconf
 
 %make
 
+popd
 pushd single
 libtoolize --copy --force; aclocal; automake; autoconf
 %configure2_5x \
