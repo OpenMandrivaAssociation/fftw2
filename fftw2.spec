@@ -186,6 +186,7 @@ popd
 
 # copy doc files where RPM will find them
 # put the HTML stuff in a sperate dir, so it appears nicely in the docdir
+pushd single
 mkdir -p ../html
 cp doc/*html doc/*gif ../html
 # remove HTML files from doc so that they don't appear double
@@ -201,6 +202,7 @@ cp -a FAQ/* ../FAQ
 
 # do the same to the other %doc files
 cp AUTHORS ChangeLog NEWS README* TODO ..
+popd
 
 %files -n %{libname}
 %{_libdir}/libfftw.so.%{major}*
