@@ -13,7 +13,7 @@
 Summary:	Fast fourier transform library
 Name:		fftw2
 Version:	2.1.5
-Release:	23
+Release:	24
 License:	GPLv2+
 Group:		Development/C
 Url:		http://www.fftw.org/
@@ -153,7 +153,7 @@ cp -rp double single
 #      prefix.
 
 pushd double
-libtoolize --copy --force; aclocal; automake; autoconf
+libtoolize --copy --force; aclocal; automake --add-missing; autoconf
 %configure2_5x \
 	--disable-static \
 	--enable-shared \
@@ -166,7 +166,7 @@ libtoolize --copy --force; aclocal; automake; autoconf
 
 popd
 pushd single
-libtoolize --copy --force; aclocal; automake; autoconf
+libtoolize --copy --force; aclocal; automake --add-missing; autoconf
 %configure2_5x \
 	--disable-static \
 	--enable-shared \
