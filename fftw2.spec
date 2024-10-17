@@ -18,7 +18,7 @@ Version:	2.1.5
 Release:	32
 License:	GPLv2+
 Group:		Development/C
-Url:		http://www.fftw.org/
+Url:		https://www.fftw.org/
 Source0:	http://www.fftw.org/%{oname}-%{version}.tar.gz
 Patch0:		%{oname}-2.1.3-pentium.patch
 Patch1:		fftw-linkage_fix.diff
