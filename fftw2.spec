@@ -25,6 +25,11 @@ Patch1:		fftw-linkage_fix.diff
 Patch2:		fftw-2.1.5-automake-1.13.patch
 Patch3:		fftw-2.1.5-texinfo51.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	gcc-gfortran
 BuildRequires:	libtool
 BuildRequires:	texinfo
